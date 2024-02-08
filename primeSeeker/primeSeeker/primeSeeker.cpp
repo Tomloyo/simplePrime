@@ -1,4 +1,4 @@
-﻿#include <cmath>
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -18,25 +18,33 @@ bool isPrime(int n)
     return true;
 }
 
-string primeSeeker(int c) {
+string primeSeeker(int c, string sep) {
     //List of primes
     std::vector<int> primes;
     primes.resize(c);
 
     //Prime seeker
-    int j = 2;
+    float percent = 0, j = 2;
     for (int counter = 0; counter < c;) {
         if (isPrime(j)) {
             primes[counter] = j;
+
+            int p = ((counter + 1) * 100 / c);
+            if (p != percent) {
+                percent = p;
+                cout << percent << "% ";
+            }
+
             counter++;
         }
         j++;
     }
+    cout << endl;
 
     //Serialize
     string res = "";
     for (int k : primes) {
-        res += to_string(k) + " ";
+        res += to_string(k) + sep;
     }
 
     return res;
@@ -53,18 +61,22 @@ int main()
     cin >> choice;
     cout << endl;
 
-
     if (choice == "1") {
         int max; 
         string path;
+        string sep;
 
         cout << "Enter primes amount" << endl;
         cin >> max;
+        cout << "Enter seperator" << endl;
+        cin >> sep;
         cout << "Enter path" << endl;
         cin >> path;
-        string res = primeSeeker(max);
+
+        string res = primeSeeker(max, sep);
 
         ofstream out;
+
         out.open(path);
         out << res;
         out.close();
