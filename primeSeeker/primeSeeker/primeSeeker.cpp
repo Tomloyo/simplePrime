@@ -1,3 +1,4 @@
+#include <chrono>
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -24,6 +25,8 @@ string primeSeeker(int c, string sep) {
     primes.resize(c);
 
     //Prime seeker
+    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+
     float percent = 0, j = 2;
     for (int counter = 0; counter < c;) {
         if (isPrime(j)) {
@@ -39,7 +42,11 @@ string primeSeeker(int c, string sep) {
         }
         j++;
     }
-    cout << endl;
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+
+    int seconds = chrono::duration_cast<chrono::microseconds>(end - begin).count() / 1000000;
+    cout << endl << "Time elapsed: " << seconds % 1000 << " seconds" << endl;
+
 
     //Serialize
     string res = "";
